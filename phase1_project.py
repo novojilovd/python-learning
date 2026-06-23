@@ -2,7 +2,7 @@ import string
 
 with open('text.txt', 'r') as text:
     try:
-        a: object = text.read()
+        checking_text: object = text.read()
     except UnicodeDecodeError:
         print('UnicodeDecodeError')
     except:
@@ -15,11 +15,11 @@ with open('text.txt', 'r') as text:
         start_index: list = [False, 0] # Список для сохранения метки о начале обработки слова
                                        # и стартовой позиции слова
 
-        for x in range(len(a)):
-            match a[x]:
-                case _ if (a[x] in string.punctuation or a[x] in string.whitespace):
+        for symbol_index in range(len(checking_text)):
+            match checking_text[symbol_index]:
+                case _ if (checking_text[symbol_index] in string.punctuation or checking_text[symbol_index] in string.whitespace or checking_text[symbol_index] in string.digits):
 
-                    if (a[x] in ['.', '!', '?'] or x == len(a) - 1) and start_index[0]:
+                    if (checking_text[symbol_index] in ['.', '!', '?'] or symbol_index == len(checking_text) - 1) and start_index[0]:
                         # Если встречаем символ разделения предложения и до этого были печатные символы,
                         #  то +1 предложение
                         sentance_count += 1
@@ -29,32 +29,32 @@ with open('text.txt', 'r') as text:
                         #  то добавляем слово в словарь, либо прибавляем 1 к количеству, если оно уже
                         #  есть в словаре
                         # Метку о начала слова меняем на False
-                        if a[start_index[1]:x] not in word.keys():
-                            word[a[start_index[1]:x]] = 1
+                        if checking_text[start_index[1]:symbol_index] not in word.keys():
+                            word[checking_text[start_index[1]:symbol_index]] = 1
                             start_index[0] = False
                         else:
-                            word[a[start_index[1]:x]] += 1
+                            word[checking_text[start_index[1]:symbol_index]] += 1
                             start_index[0] = False
 
 
-                case _ if a[x] not in string.punctuation:
+                case _ if checking_text[symbol_index] not in string.punctuation:
 
                     symbol_count += 1
                     if not start_index[0]:
                         # Если до этого не встречались печатные символы, то ставим метку о начале слова
                         #  и сохраняем позицию первого символа в слове
                         start_index[0] = True
-                        start_index[1] = x
+                        start_index[1] = symbol_index
 
-                    if x == len(a) - 1:
+                    if symbol_index == len(checking_text) - 1:
                         #Также обрабатываем пограничный случай, если печатный символ стоит в конце строки
                         sentance_count += 1
                         if start_index[0]:
-                            if a[start_index[1]:x + 1] not in word.keys():
-                                word[a[start_index[1]:x + 1]] = 1
+                            if checking_text[start_index[1]:symbol_index + 1] not in word.keys():
+                                word[checking_text[start_index[1]:symbol_index + 1]] = 1
                                 start_index[0] = False
                             else:
-                                word[a[start_index[1]:x + 1]] += 1
+                                word[checking_text[start_index[1]:symbol_index + 1]] += 1
                                 start_index[0] = False
 
 
@@ -62,16 +62,16 @@ with open('text.txt', 'r') as text:
             # Если в файле были данные, то продолжаем обработку
             word_count = 0
             position = 0
-            for a in sorted(word.items(), key=lambda item: item[1], reverse=True):
-                if a[1] != word_count:
-                    word_count = a[1]
+            for checking_text in sorted(word.items(), key=lambda item: item[1], reverse=True):
+                if checking_text[1] != word_count:
+                    word_count = checking_text[1]
                     position += 1
-                elif a[1] == word_count and position == 6:
+                elif checking_text[1] == word_count and position == 6:
                     continue
 
                 if position == 6:
                     break
-                print(f'Слово "{a[0]}" встречается {word_count} раз(а)')
+                print(f'Слово "{checking_text[0]}" встречается {word_count} раз(а)')
 
             print(f'Количество символов: {symbol_count}')
             print(f'Количество предложений: {sentance_count}')
