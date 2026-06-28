@@ -5,7 +5,6 @@ from json import JSONDecodeError
 
 try:
     db = json.loads(open('db.json').read())
-    print(db)
 except JSONDecodeError:
     print('Database not found, try restore from backup...')
     try:
@@ -31,7 +30,7 @@ db stucture
 
 def create_task(user: str):
     task_id = str(int(max(db['task_database'][user].keys())) + 1)
-    descr = input('Введите текст задачи')
+    descr = input('Введите текст задачи\n')
     db['task_database'][user][task_id] = {
                          'descr': descr,
                          'complete': False,
