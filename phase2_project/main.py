@@ -1,5 +1,5 @@
 import json
-import datetime
+from datetime import datetime
 import sys
 from json import JSONDecodeError
 
@@ -30,17 +30,17 @@ db stucture
 """
 
 def create_task(user: str):
-    task_id = int(max(db['task_database'][user].keys())) + 1
+    task_id = str(int(max(db['task_database'][user].keys())) + 1)
     descr = input('Введите текст задачи')
     db['task_database'][user][task_id] = {
                          'descr': descr,
                          'complete': False,
-                         'date': str(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'))
+                         'date': str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                          }
 
 def read_task(user: str):
     for user_tasks in db['task_database'][user].keys():
-        print(db['task_database'][user][user_tasks])
+        print(user_tasks, db['task_database'][user][user_tasks])
 
 def delete_task(user: str):
     task_id = input('Введите номер задачи\n')
@@ -63,11 +63,11 @@ def main():
         sys.exit(0)
 
     if db['task_database'].get(user) is None:
-        db['task_database'][user] = {0:
+        db['task_database'][user] = {'0':
                         {
                          'descr': 'Задача для примера',
                          'complete': False,
-                         'date': str(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'))
+                         'date': str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                          }
                     }
     create_task(user)
