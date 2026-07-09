@@ -40,12 +40,51 @@ def db_init() -> Cursor:
     return db_cursor
 
 def db_insert(entity_type: int, db_cursor: Cursor, **kwargs) -> None:
+    db_cursor.execute('''INSERT INTO books(book_type) VALUES (?)''', (entity_type,))
+    book_id = db_cursor.lastrowid
     match entity_type:
         case 1:
-            db_cursor.execute('''INSERT INTO''')
+            db_cursor.execute('''INSERT INTO physical_books(book_id, 
+                                                                name, 
+                                                                pages, 
+                                                                author, 
+                                                                ISBN, 
+                                                                genre, 
+                                                                publisher, 
+                                                                weigth, 
+                                                                cover) 
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                              (book_id,
+                                         kwargs['name'],
+                                         kwargs['pages'],
+                                         kwargs['author'],
+                                         kwargs['ISBN'],
+                                         kwargs['genre'],
+                                         kwargs['publisher'],
+                                         kwargs['weight'],
+                                         kwargs['cover']))
         case 2:
-            db_cursor.execute('''INSERT INTO''')
-
+            db_cursor.execute('''INSERT INTO digital_books(book_id, 
+                                                                name, 
+                                                                pages, 
+                                                                author, 
+                                                                ISBN, 
+                                                                genre, 
+                                                                publisher, 
+                                                                size, 
+                                                                file_path) 
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                              (book_id,
+                                         kwargs['name'],
+                                         kwargs['pages'],
+                                         kwargs['author'],
+                                         kwargs['ISBN'],
+                                         kwargs['genre'],
+                                         kwargs['publisher'],
+                                         kwargs['size'],
+                                         kwargs['file_path']))
+        case _:
+            print("Что-то пошло не так")
 if __name__ == '__main__':
     db_cursor = db_init()
     db_create(db_cursor)
