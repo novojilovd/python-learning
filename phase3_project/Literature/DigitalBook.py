@@ -5,7 +5,6 @@ class DigitalBook(Books):
     def __init__(self, *,
                  name: str = '',
                  pages: int = 0,
-                 author: str = '',
                  ISBN: str = '',
                  genre: str = '',
                  publisher: str = '',
@@ -13,7 +12,6 @@ class DigitalBook(Books):
                  file_path: str = ''):
         super().__init__(name = name,
                          pages = pages,
-                         author = author,
                          ISBN = ISBN,
                          genre = genre,
                          publisher = publisher)

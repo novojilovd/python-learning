@@ -6,14 +6,12 @@ class Literature(ABC):
     def __init__(self, *,
                  name: str = '',
                  pages: int = 0,
-                 author: str = '',
                  ISBN: str = '',
                  genre: str = '',
                  publisher: str = '') -> None:
         self.name = name
         self.ISBN = ISBN
         self.pages = pages
-        self.author = author
         self.genre = genre
         self.publisher = publisher
 

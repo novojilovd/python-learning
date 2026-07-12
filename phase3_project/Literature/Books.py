@@ -5,13 +5,11 @@ class Books(Literature):
     def __init__(self, *,
                  name: str = '',
                  pages: int = 0,
-                 author: str = '',
                  ISBN: str = '',
                  genre: str = '',
                  publisher: str = '') -> None:
         super().__init__(name = name,
                          pages = pages,
-                         author = author,
                          ISBN = ISBN,
                          genre = genre,
                          publisher = publisher)
